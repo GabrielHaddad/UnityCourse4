@@ -23,12 +23,14 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb2d;
     Animator animator;
     CapsuleCollider2D capsuleCollider2D;
+    BoxCollider2D boxCollider2D;
 
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     void ClimbLadder()
     {
         playerHasVerticalSpeed = Mathf.Abs(rb2d.velocity.y) > Mathf.Epsilon; //Mathf.Epsilon returns the smaller float value that nears zero;
-        isClimbing = capsuleCollider2D.IsTouchingLayers(isClimbable);
+        isClimbing = boxCollider2D.IsTouchingLayers(isClimbable);
 
         if (isClimbing)
         {
@@ -88,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        isJumping = !capsuleCollider2D.IsTouchingLayers(isJumpable);
+        isJumping = !boxCollider2D.IsTouchingLayers(isJumpable);
 
         if (value.isPressed && !isJumping)
         {
