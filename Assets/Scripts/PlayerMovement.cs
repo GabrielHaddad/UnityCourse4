@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool playerHasHorizontalSpeed = false;
     bool playerHasVerticalSpeed = false;
+    bool isAlive = true;
     Vector2 moveInput;
     bool isJumping;
     bool isClimbing;
@@ -41,9 +42,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isAlive) { return; }
         Run();
         FlipSprite();
         ClimbLadder();
+        Die();
     }
 
     void Run()
@@ -90,11 +93,21 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
+        if (!isAlive) { return; }
+
         isJumping = !boxCollider2D.IsTouchingLayers(isJumpable);
 
         if (value.isPressed && !isJumping)
         {
             rb2d.velocity += new Vector2(0f, jumpSpeed);
+        }
+    }
+
+    void Die()
+    {
+        if (capsuleCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemies")))
+        {
+            isAlive = false;
         }
     }
 }
