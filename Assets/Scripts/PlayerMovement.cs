@@ -13,6 +13,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Masks")]
     [SerializeField] LayerMask isJumpable;
     [SerializeField] LayerMask isClimbable;
+    [SerializeField] LayerMask canKillPlayer;
+
+    [Header("Death")]
+    [SerializeField] Vector2 deathForce = new Vector2(0f, 20f);
+
+    [Header("Shooting")]
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform bulletSpawn;
 
     bool playerHasHorizontalSpeed = false;
     bool playerHasVerticalSpeed = false;
@@ -103,11 +111,24 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void OnFire(InputValue value)
+    {
+        if (!isAlive) { return; }
+
+        if (value.isPressed)
+        {
+            Instantiate(bullet, bulletSpawn.position, transform.rotation);
+        }
+    }
+
     void Die()
     {
-        if (capsuleCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemies")))
+        if (capsuleCollider2D.IsTouchingLayers(canKillPlayer))
         {
             isAlive = false;
+            animator.SetTrigger("Dying");
+            rb2d.velocity = deathForce;
+            capsuleCollider2D.sharedMaterial = null;
         }
     }
 }

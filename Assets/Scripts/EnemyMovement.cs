@@ -27,8 +27,12 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        moveSpeed = -moveSpeed;
-        FlipEnemy();
+        if (other.tag != "Hazard")
+        {
+            moveSpeed = -moveSpeed;
+            Debug.Log(other.name);
+            FlipEnemy();
+        }
     }
 
     void FlipEnemy()
