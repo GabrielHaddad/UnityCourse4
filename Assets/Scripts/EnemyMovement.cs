@@ -30,7 +30,6 @@ public class EnemyMovement : MonoBehaviour
         if (other.tag != "Hazard")
         {
             moveSpeed = -moveSpeed;
-            Debug.Log(other.name);
             FlipEnemy();
         }
     }

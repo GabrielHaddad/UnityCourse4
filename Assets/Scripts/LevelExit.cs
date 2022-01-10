@@ -7,8 +7,7 @@ public class LevelExit : MonoBehaviour
 {
     [SerializeField] float loadLevelDelay = 0.5f;
 
-
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
@@ -19,7 +18,7 @@ public class LevelExit : MonoBehaviour
     IEnumerator LoadNextLevel()
     {
         yield return new WaitForSecondsRealtime(loadLevelDelay);
-        
+
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
 
@@ -28,6 +27,7 @@ public class LevelExit : MonoBehaviour
             nextSceneIndex = 0;
         }
 
+        FindObjectOfType<ScenePersist>().ResetScenePersist();
         SceneManager.LoadScene(nextSceneIndex);
     }
 

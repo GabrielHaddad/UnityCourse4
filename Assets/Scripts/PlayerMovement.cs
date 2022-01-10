@@ -129,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Dying");
             rb2d.velocity = deathForce;
             capsuleCollider2D.sharedMaterial = null;
+            FindObjectOfType<GameSession>().ProcessPlayerDeath();
         }
     }
 }
